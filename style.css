@@ -1,0 +1,245 @@
+/* =============================================
+   * التنسيقات الأساسية والخطوط *
+   ============================================= */
+body {
+    font-family: 'Tajawal', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: #1a1a1a;
+    text-align: right;
+    overflow-y: scroll; 
+}
+
+/* =============================================
+   * تنسيق خلفية GIF (الشلال) *
+   ============================================= */
+#backgroundGif {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100; /* ليبقى خلف كل شيء */
+    object-fit: cover; /* لتغطية الشاشة بالكامل */
+}
+
+/* **ملاحظة:** لا توجد طبقة تعتيم (.overlay) هنا لظهور الجيف بالكامل. */
+
+/* =============================================
+   * حاوية المحتوى والقائمة المنسدلة *
+   ============================================= */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    /* خلفية بيضاء صلبة تقريباً لضمان وضوح النص */
+    background-color: rgb(255, 255, 255); 
+    opacity: 0.98; /* شفافية بسيطة جداً */
+    border-radius: 20px; 
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); 
+    z-index: 10;
+}
+
+h1 {
+    text-align: center;
+    color: #007bff; 
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); 
+}
+
+#toolSelector {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 12px; 
+    background-color: #e6e6e6; 
+    color: #333;
+    box-shadow: inset 3px 3px 7px #b3b3b3, 
+                inset -3px -3px 7px #ffffff;
+    cursor: pointer;
+    appearance: none; 
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%208l5%205%205-5z%22%20fill%3D%22%23007bff%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: left 15px center;
+    padding-left: 40px;
+    text-align-last: right;
+}
+
+/* =============================================
+   * منطق الإخفاء والإظهار (للقائمة المنسدلة) *
+   ============================================= */
+.tool-content {
+    display: none;
+    animation: fadeIn 0.5s ease-in-out; 
+}
+
+.tool-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* =============================================
+   * التنسيقات الداخلية للأدوات *
+   ============================================= */
+.tool-card {
+    padding: 25px;
+    border-radius: 15px;
+    background-color: #f8f9fa; 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #343a40;
+    border-bottom: 1px solid #ced4da;
+    padding-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+input[type="text"], input[type="number"], select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 8px; 
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); 
+    outline: none;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+.result, .status-message {
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 5px;
+    background-color: #e9ecef;
+    border-right: 4px solid #007bff;
+}
+
+.logo-preview {
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 3em; 
+    font-weight: 700;
+    background-color: #ffffff;
+    border: 3px solid #007bff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.6); 
+    transition: all 0.3s;
+}
+
+.logo-preview i {
+    margin-left: 10px;
+    font-size: 1.2em;
+}
+
+.timer-display {
+    font-size: 5em;
+    text-align: center;
+    color: #dc3545; 
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin: 15px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); 
+}
+
+.timer-controls {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.timer-controls button:nth-child(1) {
+    background-color: #28a745; 
+}
+
+.timer-controls button:nth-child(2) {
+    background-color: #ffc107; 
+    color: #333;
+}
+
+.timer-controls button:nth-child(3) {
+    background-color: #dc3545; 
+}
+
+.custom-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+}
+
+.custom-inputs input[type="number"] {
+    width: 80px;
+    text-align: center;
+    margin: 0;
+}
+
+.encoder-controls {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.encoder-controls button {
+    background-color: #6f42c1; 
+    margin: 5px;
+    font-size: 0.9em;
+}
+
+.color-control {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    background-color: #fff;
+}
+/* =============================================
+   * التنسيقات العامة والمخفية *
+   ============================================= */
+
+/* إخفاء وسم الصوت من الشاشة مع بقائه نشطاً في الخلفية */
+#backgroundAudio {
+    display: none;
+    visibility: hidden;
+}
+
+/* ... (بقية تنسيقات CSS، ابتداءً من body) ... */
+body {
+    font-family: 'Tajawal', sans-serif;
+    margin: 0;
+/* ... (بقية التنسيقات) ... */
