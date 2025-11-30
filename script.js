@@ -339,20 +339,54 @@ function convertColor(mode) {
 
 
 // ===============================================
-// ** 9. كود تشغيل الموسيقى (MP3 Background Music) **
+// ** 9. كود تشغيل قائمة الموسيقى في الخلفية (Playlist) **
 // ===============================================
 
-// هذا الكود يهدف إلى تشغيل الصوت بمجرد تفاعل المستخدم مع الصفحة
-// بسبب قيود المتصفحات على خاصية التشغيل التلقائي (autoplay)
+// 1. تحديد قائمة الأغاني (يجب أن تتطابق الأسماء مع ملفاتك MP3)
+const playlist = [
+    'track1.mp3', // قم بتغيير هذه الأسماء لتطابق ملفاتك
+    'track2.mp3',
+    'track3.mp3'
+    // أضف المزيد من الملفات هنا
+];
+
+let currentTrackIndex = 0; // مؤشر الأغنية الحالية
+
+function playNextTrack() {
+    const audio = document.getElementById('backgroundAudio');
+    
+    // ضبط مصدر الأغنية التالية
+    audio.src = playlist[currentTrackIndex];
+    
+    audio.play().catch(e => {
+        // إذا فشل التشغيل التلقائي (بسبب قيود المتصفح)، لا تفعل شيئاً
+        console.warn("Autoplay was prevented, waiting for user interaction.", e);
+    });
+
+    // زيادة المؤشر استعداداً للأغنية التالية
+    currentTrackIndex = (currentTrackIndex + 1) % playlist.length; 
+    // إذا وصل المؤشر لنهاية القائمة، يعود للصفر (للتكرار اللانهائي)
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const audio = document.getElementById('backgroundAudio');
     
-    // محاولة تشغيل الصوت عند النقر على أي مكان في الصفحة
-    document.body.addEventListener('click', () => {
-        // إذا كان الصوت متوقفاً، قم بتشغيله
-        if (audio && audio.paused) {
-            audio.play().catch(e => console.error("Could not play audio on click", e));
+    // **الخطوة أ:** محاولة تشغيل الأغنية الأولى عند تحميل الصفحة
+    // تبدأ التشغيل
+    playNextTrack(); 
+
+    // **الخطوة ب:** الاستماع لحدث انتهاء الأغنية الحالية
+    // عند انتهاء الأغنية، قم بتشغيل الأغنية التالية
+    audio.addEventListener('ended', () => {
+        playNextTrack();
+    });
+
+    // **الخطوة ج:** السماح بتشغيل الصوت بعد أول نقرة للمستخدم (لتخطي قيود المتصفح)
+    document.body.addEventListener('click', function attemptPlay() {
+        if (audio.paused) {
+            audio.play().catch(e => console.error("Could not resume audio on click", e));
         }
+        // إزالة المستمع بعد أول تفاعل ناجح
+        document.body.removeEventListener('click', attemptPlay);
     }, { once: true }); 
 });
